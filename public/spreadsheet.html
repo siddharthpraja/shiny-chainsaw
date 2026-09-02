@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Spreadsheet - MyExcelDB</title>
+
+    <!-- ================================================= -->
+    <!-- TAILWIND -->
+    <!-- ================================================= -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- ================================================= -->
+    <!-- JSPREADSHEET V12 -->
+    <!-- ================================================= -->
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/jspreadsheet@12/dist/jspreadsheet.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/jsuites@6/dist/jsuites.min.css"
+    />
+
+    <!-- ================================================= -->
+    <!-- JSUITES -->
+    <!-- ================================================= -->
+
+    <script src="https://cdn.jsdelivr.net/npm/jsuites@6/dist/jsuites.min.js"></script>
+
+    <!-- ================================================= -->
+    <!-- JSPREADSHEET -->
+    <!-- ================================================= -->
+
+    <script src="https://cdn.jsdelivr.net/npm/jspreadsheet@12/dist/index.min.js"></script>
+
+    <!-- ================================================= -->
+    <!-- FORMULA PRO -->
+    <!-- ================================================= -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@jspreadsheet/formula-pro/dist/index.min.js"></script>
+
+    <!-- ================================================= -->
+    <!-- REGISTER FORMULA EXTENSION -->
+    <!-- ================================================= -->
+
+    <script>
+      jspreadsheet.setLicense("evaluation");
+    </script>
+
+    <!-- ================================================= -->
+    <!-- STYLES -->
+    <!-- ================================================= -->
+
+    <style>
+      html,
+      body {
+        margin: 0;
+
+        height: 100%;
+
+        overflow: hidden;
+      }
+
+      #spreadsheet {
+        height: calc(100vh - 112px);
+
+        width: 100%;
+      }
+
+      .jss_container {
+        font-size: 13px;
+      }
+
+      .jexcel_content {
+        height: 100% !important;
+      }
+    </style>
+  </head>
+
+  <body data-page="spreadsheet" class="h-screen bg-slate-100 flex flex-col">
+    <!-- ================================================= -->
+    <!-- HEADER -->
+    <!-- ================================================= -->
+
+    <header
+      class="h-14 bg-white border-b border-slate-200 flex items-center px-3 shrink-0"
+    >
+      <a href="/dashboard.html" class="font-bold text-lg text-slate-900 mr-6">
+        My<span class="text-green-600">Excel</span>DB
+      </a>
+
+      <div class="flex items-center gap-1">
+        <button
+          id="saveButton"
+          class="px-3 py-2 text-sm rounded-lg hover:bg-slate-100"
+        >
+          Save
+        </button>
+
+        <button
+          id="newSheetButton"
+          class="px-3 py-2 text-sm rounded-lg hover:bg-slate-100"
+        >
+          + Sheet
+        </button>
+
+        <button
+          id="refreshButton"
+          class="px-3 py-2 text-sm rounded-lg hover:bg-slate-100"
+        >
+          Refresh
+        </button>
+      </div>
+
+      <div class="ml-auto flex items-center gap-4">
+        <span id="saveStatus" class="text-xs text-slate-500"> Loading... </span>
+
+        <button
+          id="logoutButton"
+          class="px-3 py-2 text-sm rounded-lg bg-slate-900 text-white hover:bg-slate-800"
+        >
+          Logout
+        </button>
+      </div>
+    </header>
+
+    <!-- ================================================= -->
+    <!-- FORMULA BAR -->
+    <!-- ================================================= -->
+
+    <div
+      class="h-12 bg-white border-b border-slate-200 flex items-center px-3 gap-2 shrink-0"
+    >
+      <div
+        id="cellName"
+        class="w-16 h-8 flex items-center justify-center border border-slate-300 rounded bg-slate-50 font-mono text-sm"
+      >
+        A1
+      </div>
+
+      <div class="text-slate-400 font-semibold px-1">fx</div>
+
+      <input
+        id="formulaBar"
+        class="h-8 flex-1 border border-slate-300 rounded px-3 font-mono text-sm outline-none focus:ring-2 focus:ring-green-500"
+        placeholder="Enter value or formula"
+        autocomplete="off"
+      />
+    </div>
+
+    <!-- ================================================= -->
+    <!-- SPREADSHEET -->
+    <!-- ================================================= -->
+
+    <main class="flex-1 min-h-0 bg-white">
+      <div id="spreadsheet"></div>
+    </main>
+
+    <!-- ================================================= -->
+    <!-- APPLICATION -->
+    <!-- ================================================= -->
+
+    <script type="module" src="/js/app.js"></script>
+  </body>
+</html>

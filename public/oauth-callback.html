@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signing in... - MyExcelDB</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="min-h-screen bg-slate-100 flex items-center justify-center p-6">
+
+    <div class="text-center">
+        <div class="inline-flex w-14 h-14 bg-green-600 rounded-2xl items-center justify-center text-white text-2xl font-bold animate-pulse">
+            X
+        </div>
+        <p class="text-slate-600 mt-4">Finishing sign-in...</p>
+    </div>
+
+    <script type="module">
+        const params = new URLSearchParams(window.location.search);
+
+        const token = params.get("token");
+        const exp = params.get("exp");
+        const login = params.get("login");
+
+        if (token) {
+            localStorage.setItem("authToken", token);
+            localStorage.setItem("authTokenExp", exp || "");
+            localStorage.setItem("loginAtDate", login || "");
+
+            window.location.href = "/dashboard.html";
+        } else {
+            window.location.href = "/login.html?error=" + encodeURIComponent("Google sign-in failed");
+        }
+    </script>
+
+</body>
+</html>

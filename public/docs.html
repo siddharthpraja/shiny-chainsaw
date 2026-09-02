@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>MyExcelDB Documentation</title>
+
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: "#eff6ff",
+                100: "#dbeafe",
+                500: "#3b82f6",
+                600: "#2563eb",
+                700: "#1d4ed8",
+                900: "#1e3a8a",
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+
+      pre {
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+
+      .sidebar-scroll::-webkit-scrollbar {
+        width: 5px;
+      }
+
+      .sidebar-scroll::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 10px;
+      }
+
+      .method-GET {
+        background: #dcfce7;
+        color: #15803d;
+      }
+
+      .method-POST {
+        background: #dbeafe;
+        color: #1d4ed8;
+      }
+
+      .method-PUT {
+        background: #fef3c7;
+        color: #b45309;
+      }
+
+      .method-PATCH {
+        background: #f3e8ff;
+        color: #7e22ce;
+      }
+
+      .method-DELETE {
+        background: #fee2e2;
+        color: #b91c1c;
+      }
+
+      .method-COMMAND {
+        background: #e2e8f0;
+        color: #334155;
+      }
+
+      .endpoint-card {
+        scroll-margin-top: 90px;
+      }
+
+      .active-nav {
+        background: #eff6ff;
+        color: #2563eb;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+
+  <body class="bg-slate-50 text-slate-900">
+    <!-- ========================================================= -->
+    <!-- MOBILE HEADER -->
+    <!-- ========================================================= -->
+
+    <header
+      class="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200 h-16"
+    >
+      <div class="h-full flex items-center justify-between px-4">
+        <div class="flex items-center gap-3">
+          <button id="mobileMenuBtn" class="p-2 rounded-lg hover:bg-slate-100">
+            ☰
+          </button>
+
+          <div class="font-bold text-lg">MyExcelDB</div>
+        </div>
+
+        <span class="text-xs text-slate-500"> Docs </span>
+      </div>
+    </header>
+
+    <!-- ========================================================= -->
+    <!-- SIDEBAR -->
+    <!-- ========================================================= -->
+
+    <aside
+      id="sidebar"
+      class="fixed top-0 bottom-0 left-0 z-40 w-72 bg-white border-r border-slate-200 transform -translate-x-full lg:translate-x-0 transition-transform duration-200"
+    >
+      <!-- Logo -->
+
+      <div class="h-16 px-6 flex items-center border-b border-slate-200">
+        <div>
+          <div class="font-bold text-xl text-slate-900">MyExcelDB</div>
+
+          <div class="text-xs text-slate-500">API Documentation</div>
+        </div>
+      </div>
+
+      <!-- Search -->
+
+      <div class="p-4 border-b border-slate-200">
+        <div class="relative">
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="Search API..."
+            class="w-full rounded-lg border border-slate-300 px-4 py-2.5 pl-10 text-sm outline-none focus:ring-2 focus:ring-blue-500"
+          />
+
+          <span class="absolute left-3 top-2.5 text-slate-400"> 🔍 </span>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+
+      <nav
+        id="sidebarNav"
+        class="sidebar-scroll overflow-y-auto h-[calc(100vh-145px)] p-4"
+      >
+        <div class="text-sm text-slate-400">Loading documentation...</div>
+      </nav>
+
+      <!-- Token -->
+
+      <div
+        class="absolute bottom-0 left-0 right-0 p-4 bg-white border-t border-slate-200"
+      > 
+      <button 
+          class="w-full rounded-lg bg-slate-900 text-white py-2 text-sm hover:bg-slate-800"
+      >
+        <a
+          href="/"
+          id="tokenBtn"
+        >
+          Set API Token
+        </a>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ========================================================= -->
+    <!-- OVERLAY -->
+    <!-- ========================================================= -->
+
+    <div
+      id="sidebarOverlay"
+      class="fixed inset-0 bg-black/40 z-30 hidden lg:hidden"
+    ></div>
+
+    <!-- ========================================================= -->
+    <!-- MAIN -->
+    <!-- ========================================================= -->
+
+    <main class="lg:ml-72 min-h-screen">
+      <!-- Topbar -->
+
+      <div
+        class="sticky top-0 z-20 bg-white/95 backdrop-blur border-b border-slate-200"
+      >
+        <div
+          class="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between"
+        >
+          <div class="hidden lg:block">
+            <div class="text-sm text-slate-500">Documentation</div>
+
+            <div id="breadcrumb" class="font-semibold">Getting Started</div>
+          </div>
+
+          <div class="flex items-center gap-3 ml-auto">
+            <span
+              id="connectionStatus"
+              class="text-xs px-3 py-1.5 rounded-full bg-slate-100 text-slate-500"
+            >
+              Connecting...
+            </span>
+
+            <button
+              id="reloadBtn"
+              class="px-3 py-2 text-sm border border-slate-300 rounded-lg hover:bg-slate-50"
+            >
+              ↻ Reload
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content -->
+
+      <div id="content" class="max-w-5xl mx-auto px-6 lg:px-10 py-10">
+        <div class="text-center py-20">
+          <div class="text-4xl mb-4">📚</div>
+
+          <h1 class="text-3xl font-bold">Loading Documentation</h1>
+
+          <p class="mt-3 text-slate-500">Loading your API documentation...</p>
+        </div>
+      </div>
+    </main>
+
+    <!-- ========================================================= -->
+    <!-- TOKEN MODAL -->
+    <!-- ========================================================= -->
+
+    <!-- <div
+    id="tokenModal"
+    class="
+        fixed
+        inset-0
+        z-[100]
+        hidden
+        items-center
+        justify-center
+        bg-black/50
+        px-4
+    "
+>
+
+    <div
+        class="
+            bg-white
+            rounded-2xl
+            shadow-xl
+            max-w-lg
+            w-full
+            p-6
+        "
+    >
+
+        <div class="flex justify-between items-center">
+
+            <div>
+
+                <h2 class="text-xl font-bold">
+                    API Authentication
+                </h2>
+
+                <p class="text-sm text-slate-500 mt-1">
+                    Enter your MyExcelDB JWT token.
+                </p>
+
+            </div>
+
+            <button
+                id="closeTokenModal"
+                class="text-slate-400 hover:text-slate-700"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+        <div class="mt-6">
+
+            <label class="text-sm font-medium">
+                Bearer Token
+            </label>
+
+            <textarea
+                id="tokenInput"
+                rows="5"
+                placeholder="eyJhbGciOiJIUzI1NiIs..."
+                class="
+                    mt-2
+                    w-full
+                    border
+                    border-slate-300
+                    rounded-lg
+                    p-3
+                    text-sm
+                    font-mono
+                    outline-none
+                    focus:ring-2
+                    focus:ring-blue-500
+                "
+            ></textarea>
+
+        </div>
+
+
+        <div class="mt-5 flex justify-end gap-3">
+
+            <button
+                id="cancelToken"
+                class="
+                    px-4
+                    py-2
+                    rounded-lg
+                    border
+                    border-slate-300
+                "
+            >
+                Cancel
+            </button>
+
+            <button
+                id="saveToken"
+                class="
+                    px-4
+                    py-2
+                    rounded-lg
+                    bg-blue-600
+                    text-white
+                    hover:bg-blue-700
+                "
+            >
+                Save Token
+            </button>
+
+        </div>
+
+    </div>
+
+</div> -->
+
+    <script src="./js/doc.js"></script>
+  </body>
+</html>
